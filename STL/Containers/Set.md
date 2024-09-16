@@ -1,25 +1,4 @@
-
-`std::set` is an associative container that contains a sorted set of unique objects. It automatically sorts the elements in ascending order (by default) and ensures that all the elements are unique. Internally, it is usually implemented as a self-balancing binary search tree (e.g., Red-Black Tree).
-
-<br>
-
----
-
-<br>
-
-## Time and Space Complexity Summary
-
-<br>
-
-| Operation            | Time Complexity | Space Complexity |
-|----------------------|-----------------|------------------|
-| Access (find)        | $O(\log n)$     | $O(1)$           |
-| Insert               | $O(\log n)$     | $O(n)$           |
-| Erase (single)       | $O(\log n)$     | $O(n)$           |
-| Erase (range)        | $O(k + \log n)$ | $O(n)$           |
-| Size                 | $O(1)$          | $O(1)$           |
-| Clear                | $O(n)$          | $O(1)$           |
-| Traverse             | $O(n)$          | $O(n)$           |
+`std::set` is an associative container that stores unique elements in a specific order. The elements are sorted based on a comparison function, by default `std::less<Key>`, and internally implemented as a self-balancing binary search tree (usually a Red-Black tree). `std::set` ensures that no two elements are equal, and provides logarithmic time complexity for insertions, deletions, and searches.
 
 <br>
 
@@ -27,11 +6,9 @@
 
 <br>
 
-## Setup
+## Header File
 
-<br>
-
-The `<set>` library header is required.
+To use `std::set`, you need to include the following header:
 
 ```cpp
 #include <set>
@@ -43,11 +20,45 @@ The `<set>` library header is required.
 
 <br>
 
-## Declaration
+## Time/Space Complexities Summary
+
+| Function               | Time Complexity  | Space Complexity |
+|------------------------|------------------|------------------|
+| Constructor (default)   | O(1)             | O(1)             |
+| Constructor (range)     | O(n log n)       | O(n)             |
+| insert()               | O(log n)         | O(log n)         |
+| erase()                | O(log n)         | O(log n)         |
+| find()                 | O(log n)         | O(1)             |
+| count()                | O(log n)         | O(1)             |
+| clear()                | O(n)             | O(1)             |
+| swap()                 | O(1)             | O(1)             |
 
 <br>
 
-Create an empty set:
+---
+
+<br>
+
+## Constructor
+
+<br>
+
+### std::set()
+
+**Description:** Constructs an empty set.
+
+**Template Syntax:**
+
+```cpp
+std::set<data_type> set_name;
+```
+
+- `data_type`: The type of the keys stored in the set.
+- `set_name`: The name of the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
 std::set<int> s;
@@ -55,86 +66,104 @@ std::set<int> s;
 
 <br>
 
-Create a set with elements 1, 2, and 3:
+### std::set(InputIt first, InputIt last)
+
+**Description:** Constructs a set from a range defined by iterators `[first, last)`.
+
+**Template Syntax:**
+
+```cpp
+std::set<data_type> set_name(iterator_first, iterator_last);
+```
+
+- `data_type`: The type of the keys stored in the set.
+- `set_name`: The name of the set.
+- `iterator_first`, `iterator_last`: Iterators defining the range of elements to insert.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n log n) | O(n) |
+
+```cpp
+std::vector<int> vec = {1, 2, 3};
+std::set<int> s(vec.begin(), vec.end());
+```
+
+<br>
+
+### std::set(std::initializer_list<T> init)
+
+**Description:** Constructs a set initialized with elements from an initializer list.
+
+**Template Syntax:**
+
+```cpp
+std::set<data_type> set_name = {value1, value2, value3, ...};
+```
+
+- `data_type`: The type of the keys stored in the set.
+- `set_name`: The name of the set.
+- `value1, value2, value3, ...`: The values to initialize the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n log n) | O(n) |
+
+```cpp
+std::set<int> s = {1, 2, 3};  // Creates a set with elements 1, 2, and 3.
+```
+
+<br>
+
+---
+
+<br>
+
+## Capacity Functions
+
+<br>
+
+### size()
+
+**Description:** Returns the number of elements in the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
 std::set<int> s = {1, 2, 3};
+size_t sz = s.size(); // sz = 3
 ```
 
 <br>
 
-Create a set with a custom comparator (descending order):
+### empty()
+
+**Description:** Checks if the set contains no elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-auto cmp = [](int a, int b) { return a > b; };
-std::set<int, decltype(cmp)> s(cmp); // Set with custom comparator
+std::set<int> s;
+bool is_empty = s.empty(); // true
 ```
 
 <br>
 
----
+### max_size()
 
-<br>
+**Description:** Returns the maximum number of elements that the set can hold.
 
-## Insertion and Deletion
-
-<br>
-
-#### `insert`
-
-- **Description:** Inserts an element into the set if it is not already present.
-- **Complexity:** $O(\log n)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-s.insert(5); // Adds 5 to the set if it's not already present
-```
-
-<br>
-
-#### `emplace`
-
-- **Description:** Constructs and inserts an element into the set in-place.
-- **Complexity:** $O(\log n)$
-
-```cpp
-s.emplace(10); // Constructs and adds 10 to the set if it's not already present
-```
-
-<br>
-
-#### `erase`
-
-- **Description:** Removes the element at the specified position or key.
-- **Complexity:** $O(\log n)$
-
-```cpp
-s.erase(5); // Removes the element with key 5
-```
-
-- **Erase by iterator:**
-
-```cpp
-auto it = s.find(10);
-if (it != s.end()) {
-    s.erase(it); // Removes the element pointed to by the iterator
-}
-```
-
-- **Erase by range:**
-
-```cpp
-s.erase(s.begin(), s.end()); // Removes all elements
-```
-
-<br>
-
-#### `clear`
-
-- **Description:** Removes all elements from the set.
-- **Complexity:** $O(n)$
-
-```cpp
-s.clear(); // Removes all elements from the set
+std::set<int> s;
+size_t max_sz = s.max_size();
 ```
 
 <br>
@@ -143,55 +172,97 @@ s.clear(); // Removes all elements from the set
 
 <br>
 
-## Element Access
+## Modifiers
 
 <br>
 
-#### `find`
+### insert(const T& value)
 
-- **Description:** Searches for the element with the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Inserts a unique element into the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(log n) |
 
 ```cpp
-auto it = s.find(5); // Searches for 5 in the set
-if (it != s.end()) {
-    std::cout << "Found 5";
-}
+std::set<int> s = {1, 2, 3};
+s.insert(4); // Inserts 4 into the set.
 ```
 
 <br>
 
-#### `count`
+### insert(InputIt first, InputIt last)
 
-- **Description:** Returns the number of elements matching the given key (in a set, it’s always 0 or 1).
-- **Complexity:** $O(\log n)$
+**Description:** Inserts elements from the range `[first, last)`.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n log n) | O(n) |
 
 ```cpp
-if (s.count(5)) {
-    std::cout << "5 exists in the set";
-}
+std::vector<int> vec = {4, 5, 6};
+s.insert(vec.begin(), vec.end());  // Inserts elements from the vector into the set.
 ```
 
 <br>
 
-#### `lower_bound`
+### emplace(Args&&... args)
 
-- **Description:** Returns an iterator to the first element that is not less than the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Constructs an element in place within the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(log n) |
 
 ```cpp
-auto it = s.lower_bound(5); // Iterator to the first element >= 5
+std::set<int> s;
+s.emplace(4); // Constructs 4 directly in the set.
 ```
 
 <br>
 
-#### `upper_bound`
+### erase(iterator pos)
 
-- **Description:** Returns an iterator to the first element that is greater than the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Erases the element at the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
 
 ```cpp
-auto it = s.upper_bound(5); // Iterator to the first element > 5
+std::set<int> s = {1, 2, 3};
+s.erase(s.begin()); // Erases the first element (1).
+```
+
+<br>
+
+### clear()
+
+**Description:** Clears the set by removing all elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::set<int> s = {1, 2, 3};
+s.clear(); // Empties the set.
+```
+
+<br>
+
+### swap(std::set& other)
+
+**Description:** Swaps the contents of two sets.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::set<int> s1 = {1, 2, 3};
+std::set<int> s2 = {4, 5, 6};
+s1.swap(s2);  // s1 becomes {4, 5, 6}, and s2 becomes {1, 2, 3}.
 ```
 
 <br>
@@ -200,28 +271,51 @@ auto it = s.upper_bound(5); // Iterator to the first element > 5
 
 <br>
 
-## Size Operations
+## Lookup Functions
 
 <br>
 
-#### `size`
+### find(const Key& key)
 
-- **Description:** Returns the number of elements in the set.
-- **Complexity:** $O(1)$
+**Description:** Finds an element with the given `key` and returns an iterator to it, or `end()` if not found.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
 
 ```cpp
-std::size_t sz = s.size(); // Get the number of elements
+std::set<int> s = {1, 2, 3};
+auto it = s.find(2);  // Returns an iterator to 2.
 ```
 
 <br>
 
-#### `empty`
+### count(const Key& key)
 
-- **Description:** Checks if the set is empty.
-- **Complexity:** $O(1)$
+**Description:** Returns the number of elements matching the key (0 or 1 since elements are unique in a set).
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
 
 ```cpp
-bool isEmpty = s.empty(); // Returns true if the set is empty
+std::set<int> s = {1, 2, 3};
+size_t count = s.count(2);  // count = 1
+```
+
+<br>
+
+### contains(const Key& key)
+
+**Description:** Checks whether the set contains an element with the specified `key`.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::set<int> s = {1, 2, 3};
+bool exists = s.contains(2);  // true
 ```
 
 <br>
@@ -234,15 +328,32 @@ bool isEmpty = s.empty(); // Returns true if the set is empty
 
 <br>
 
-#### `begin`, `end`, `rbegin`, `rend`
+### begin()
 
-- **Description:** Provides iterators for range-based loops and algorithms.
-- **Complexity:** $O(1)$
+**Description:** Returns an iterator to the first element in the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-for (auto it = s.begin(); it != s.end(); ++it) {
-    std::cout << *it << " ";
-}
+std::set<int> s = {1, 2, 3};
+auto it = s.begin();  // Points to the first element.
+```
+
+<br>
+
+### end()
+
+**Description:** Returns an iterator to the element following the last element in the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::set<int> s = {1, 2, 3};
+auto it = s.end();  // Points to the past-the-end element.
 ```
 
 <br>
@@ -251,60 +362,36 @@ for (auto it = s.begin(); it != s.end(); ++it) {
 
 <br>
 
-## Other Operations
+## Observers
 
 <br>
 
-#### `swap`
+### key_comp()
 
-- **Description:** Swaps the content of two sets.
-- **Complexity:** $O(1)$
+**Description:** Returns the function that compares the keys.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::set<int> s2 = {9, 8, 7};
-s.swap(s2); // Swaps content of s and s2
+std::set<int> s;
+auto comp = s.key_comp();
 ```
 
 <br>
 
-#### `assign`
+### value_comp()
 
-- **Description:** Assigns new values to the set, replacing the old ones.
-- **Complexity:** $O(n \log n)$
+**Description:** Returns a function that compares values.
 
-```cpp
-s = {5, 6, 7, 8}; // Assigns new values to the set
-```
-
-<br>
-
----
-
-<br>
-
-## Set Operations
-
-<br>
-
-#### `merge`
-
-- **Description:** Merges two sets (the source set is emptied).
-- **Complexity:** $O(n \log n)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::set<int> s2 = {1, 4, 6};
-s.merge(s2); // Merges s2 into s, s2 is emptied
-```
-
-<br>
-
-#### `equal_range`
-
-- **Description:** Returns a range of elements that are equal to the given key (for `std::set`, this will return either a single element or an empty range since duplicates are not allowed).
-- **Complexity:** $O(\log n)$
-
-```cpp
-auto range = s.equal_range(5); // Returns a pair of iterators for range of elements == 5
+std::set<int> s;
+auto comp = s.value_comp();
 ```
 
 <br>
@@ -313,20 +400,33 @@ auto range = s.equal_range(5); // Returns a pair of iterators for range of eleme
 
 <br>
 
-## Custom Comparators
+## Non-Member Functions
 
 <br>
 
-#### Example of a custom comparator (Descending order):
+### operator ==
 
-```cpp
-auto cmp = [](int a, int b) { return a > b; };
-std::set<int, decltype(cmp)> s(cmp);
-```
+**Description:** Lexicographically compares two sets for equality.
 
-<br>
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
 
-In this example, the set will store the elements in descending order instead of the default ascending order.
+### operator <=>
+
+**Description:** Compares sets using the three-way comparison operator.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+### std::swap
+
+**Description:** Specializes `std::swap` for sets.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 <br>
 
@@ -334,10 +434,16 @@ In this example, the set will store the elements in descending order instead of 
 
 <br>
 
-## Special Properties of `std::set`
+## Member Types
 
-<br>
-
-- All elements in `std::set` are unique.
-- Elements are stored in a specific order (ascending by default).
-- Efficient insertion, deletion, and lookup with $O(\log n)$ complexity.
+| Member Type        | Description                                    |
+|--------------------|------------------------------------------------|
+| `key_type`         | Type of the keys stored in the set.             |
+| `value_type`       | Same as `key_type`.                             |
+| `size_type`        | Unsigned integer type representing the size.    |
+| `difference_type`  | Signed integer type for pointer differences.    |
+| `key_compare`      | The key comparison function.                    |
+| `value_compare`    | The value comparison function.                  |
+| `allocator_type`   | The allocator used to allocate memory.          |
+| `iterator`         | Constant bidirectional iterator to `value_type`.|
+| `const_iterator`   | Bidirectional iterator to `const value_type`.   |
