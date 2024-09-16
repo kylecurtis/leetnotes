@@ -1,24 +1,4 @@
-
-`std::unordered_set` is an associative container that contains a unique set of elements. Unlike `std::set`, elements in `std::unordered_set` are not sorted; instead, they are organized into buckets using a hash function. This provides average constant-time complexity ($O(1)$) for insertion, deletion, and lookup, but performance can degrade to $O(n)$ in the worst case (due to hash collisions).
-
-<br>
-
----
-
-<br>
-
-## Time and Space Complexity Summary
-
-<br>
-
-| Operation            | Average Time Complexity | Worst Case Time Complexity | Space Complexity |
-|----------------------|-------------------------|----------------------------|------------------|
-| Access (find)        | $O(1)$                  | $O(n)$                     | $O(1)$           |
-| Insert               | $O(1)$                  | $O(n)$                     | $O(n)$           |
-| Erase (single)       | $O(1)$                  | $O(n)$                     | $O(n)$           |
-| Size                 | $O(1)$                  | $O(1)$                     | $O(1)$           |
-| Clear                | $O(n)$                  | $O(n)$                     | $O(1)$           |
-| Traverse             | $O(n)$                  | $O(n)$                     | $O(n)$           |
+`std::unordered_set` is an associative container that stores unique elements in an unordered fashion, based on the element's hash value. It provides average constant-time complexity for search, insertion, and deletion operations. Internally, the elements are organized into buckets, and their location is determined by their hash.
 
 <br>
 
@@ -26,11 +6,9 @@
 
 <br>
 
-## Setup
+## Header File
 
-<br>
-
-The `<unordered_set>` library header is required.
+To use `std::unordered_set`, you need to include the following header:
 
 ```cpp
 #include <unordered_set>
@@ -42,31 +20,98 @@ The `<unordered_set>` library header is required.
 
 <br>
 
-## Declaration
+## Time/Space Complexities Summary
+
+| Function               | Time Complexity  | Space Complexity |
+|------------------------|------------------|------------------|
+| Constructor (default)   | O(1)             | O(1)             |
+| Constructor (range)     | O(n)             | O(n)             |
+| insert()               | O(1) average     | O(1) average     |
+| erase()                | O(1) average     | O(1)             |
+| find()                 | O(1) average     | O(1)             |
+| count()                | O(1) average     | O(1)             |
+| clear()                | O(n)             | O(1)             |
+| swap()                 | O(1)             | O(1)             |
+| rehash()               | O(n)             | O(n)             |
 
 <br>
 
-Create an empty unordered set:
+---
+
+<br>
+
+## Constructor
+
+<br>
+
+### std::unordered_set()
+
+**Description:** Constructs an empty unordered set.
+
+**Template Syntax:**
 
 ```cpp
-std::unordered_set<int> us;
+std::unordered_set<data_type> set_name;
+```
+
+- `data_type`: The type of the keys stored in the unordered set.
+- `set_name`: The name of the unordered set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::unordered_set<int> s;
 ```
 
 <br>
 
-Create an unordered set with elements 1, 2, and 3:
+### std::unordered_set(InputIt first, InputIt last)
+
+**Description:** Constructs an unordered set from a range defined by iterators `[first, last)`.
+
+**Template Syntax:**
 
 ```cpp
-std::unordered_set<int> us = {1, 2, 3};
+std::unordered_set<data_type> set_name(iterator_first, iterator_last);
+```
+
+- `data_type`: The type of the keys stored in the unordered set.
+- `set_name`: The name of the unordered set.
+- `iterator_first`, `iterator_last`: Iterators defining the range of elements to insert.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> vec = {1, 2, 3};
+std::unordered_set<int> s(vec.begin(), vec.end());
 ```
 
 <br>
 
-Create an unordered set with a custom hash function:
+### std::unordered_set(std::initializer_list<T> init)
+
+**Description:** Constructs an unordered set initialized with elements from an initializer list.
+
+**Template Syntax:**
 
 ```cpp
-auto hashFunc = [](int x) { return x % 10; };
-std::unordered_set<int, decltype(hashFunc)> us(10, hashFunc); // Unordered set with custom hash function
+std::unordered_set<data_type> set_name = {value1, value2, value3, ...};
+```
+
+- `data_type`: The type of the keys stored in the unordered set.
+- `set_name`: The name of the unordered set.
+- `value1, value2, value3, ...`: The values to initialize the set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::unordered_set<int> s = {1, 2, 3};  // Creates a set with elements 1, 2, and 3.
 ```
 
 <br>
@@ -75,59 +120,51 @@ std::unordered_set<int, decltype(hashFunc)> us(10, hashFunc); // Unordered set w
 
 <br>
 
-## Insertion and Deletion
+## Capacity Functions
 
 <br>
 
-#### `insert`
+### size()
 
-- **Description:** Inserts an element into the unordered set if it is not already present.
-- **Complexity:** Average $O(1)$, worst case $O(n)$
+**Description:** Returns the number of elements in the unordered set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-us.insert(5); // Adds 5 to the unordered set if it's not already present
+std::unordered_set<int> s = {1, 2, 3};
+size_t sz = s.size(); // sz = 3
 ```
 
 <br>
 
-#### `emplace`
+### empty()
 
-- **Description:** Constructs and inserts an element into the unordered set in-place.
-- **Complexity:** Average $O(1)$, worst case $O(n)$
+**Description:** Checks if the unordered set contains no elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-us.emplace(10); // Constructs and adds 10 to the unordered set
+std::unordered_set<int> s;
+bool is_empty = s.empty(); // true
 ```
 
 <br>
 
-#### `erase`
+### max_size()
 
-- **Description:** Removes the element with the given key.
-- **Complexity:** Average $O(1)$, worst case $O(n)$
+**Description:** Returns the maximum number of elements that the unordered set can hold.
 
-```cpp
-us.erase(5); // Removes the element with key 5
-```
-
-- **Erase by iterator:**
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-auto it = us.find(10);
-if (it != us.end()) {
-    us.erase(it); // Removes the element pointed to by the iterator
-}
-```
-
-<br>
-
-#### `clear`
-
-- **Description:** Removes all elements from the unordered set.
-- **Complexity:** $O(n)$
-
-```cpp
-us.clear(); // Removes all elements from the unordered set
+std::unordered_set<int> s;
+size_t max_sz = s.max_size();
 ```
 
 <br>
@@ -136,33 +173,97 @@ us.clear(); // Removes all elements from the unordered set
 
 <br>
 
-## Element Access
+## Modifiers
 
 <br>
 
-#### `find`
+### insert(const T& value)
 
-- **Description:** Searches for the element with the given key.
-- **Complexity:** Average $O(1)$, worst case $O(n)$
+**Description:** Inserts a unique element into the unordered set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) average | O(1) average |
 
 ```cpp
-auto it = us.find(5); // Searches for 5 in the unordered set
-if (it != us.end()) {
-    std::cout << "Found 5";
-}
+std::unordered_set<int> s = {1, 2, 3};
+s.insert(4); // Inserts 4 into the set.
 ```
 
 <br>
 
-#### `count`
+### insert(InputIt first, InputIt last)
 
-- **Description:** Returns the number of elements matching the given key (in an unordered set, it’s always 0 or 1).
-- **Complexity:** Average $O(1)$, worst case $O(n)$
+**Description:** Inserts elements from the range `[first, last)`.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
 
 ```cpp
-if (us.count(5)) {
-    std::cout << "5 exists in the unordered set";
-}
+std::vector<int> vec = {4, 5, 6};
+s.insert(vec.begin(), vec.end());  // Inserts elements from the vector into the unordered set.
+```
+
+<br>
+
+### emplace(Args&&... args)
+
+**Description:** Constructs an element in place within the unordered set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) average | O(1) average |
+
+```cpp
+std::unordered_set<int> s;
+s.emplace(4); // Constructs 4 directly in the unordered set.
+```
+
+<br>
+
+### erase(iterator pos)
+
+**Description:** Erases the element at the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) average | O(1) |
+
+```cpp
+std::unordered_set<int> s = {1, 2, 3};
+s.erase(s.begin()); // Erases the first element.
+```
+
+<br>
+
+### clear()
+
+**Description:** Clears the unordered set by removing all elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::unordered_set<int> s = {1, 2, 3};
+s.clear(); // Empties the set.
+```
+
+<br>
+
+### swap(std::unordered_set& other)
+
+**Description:** Swaps the contents of two unordered sets.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::unordered_set<int> s1 = {1, 2, 3};
+std::unordered_set<int> s2 = {4, 5, 6};
+s1.swap(s2);  // s1 becomes {4, 5, 6}, and s2 becomes {1, 2, 3}.
 ```
 
 <br>
@@ -171,28 +272,51 @@ if (us.count(5)) {
 
 <br>
 
-## Size Operations
+## Lookup Functions
 
 <br>
 
-#### `size`
+### find(const Key& key)
 
-- **Description:** Returns the number of elements in the unordered set.
-- **Complexity:** $O(1)$
+**Description:** Finds an element with the given `key` and returns an iterator to it, or `end()` if not found.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) average | O(1) |
 
 ```cpp
-std::size_t sz = us.size(); // Get the number of elements
+std::unordered_set<int> s = {1, 2, 3};
+auto it = s.find(2);  // Returns an iterator to 2.
 ```
 
 <br>
 
-#### `empty`
+### count(const Key& key)
 
-- **Description:** Checks if the unordered set is empty.
-- **Complexity:** $O(1)$
+**Description:** Returns the number of elements matching the key (0 or 1 since elements are unique in a set).
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) average | O(1) |
 
 ```cpp
-bool isEmpty = us.empty(); // Returns true if the unordered set is empty
+std::unordered_set<int> s = {1, 2, 3};
+size_t count = s.count(2);  // count = 1
+```
+
+<br>
+
+### contains(const Key& key)
+
+**Description:** Checks whether the unordered set contains an element with the specified `key`.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) average | O(1) |
+
+```cpp
+std::unordered_set<int> s = {1, 2, 3};
+bool exists = s.contains(2);  // true
 ```
 
 <br>
@@ -205,100 +329,32 @@ bool isEmpty = us.empty(); // Returns true if the unordered set is empty
 
 <br>
 
-#### `begin`, `end`
+### begin()
 
-- **Description:** Provides iterators for range-based loops and algorithms.
-- **Complexity:** $O(1)$
+**Description:** Returns an iterator to the first element in the unordered set.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-for (auto it = us.begin(); it != us.end(); ++it) {
-    std::cout << *it << " ";
-}
+std::unordered_set<int> s = {1, 2, 3};
+auto it = s.begin();  // Points to the first element.
 ```
 
 <br>
 
----
+### end()
 
-<br>
+**Description:** Returns an iterator to the element following the last element in the unordered set.
 
-## Bucket Interface
-
-`std::unordered_set` stores elements in buckets and uses hash functions to determine the bucket for each element. The bucket interface provides methods to query these buckets.
-
-<br>
-
-#### `bucket_count`
-
-- **Description:** Returns the number of buckets used by the unordered set.
-- **Complexity:** $O(1)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::size_t bucketCount = us.bucket_count(); // Get the number of buckets
-```
-
-<br>
-
-#### `bucket`
-
-- **Description:** Returns the bucket index for a given key.
-- **Complexity:** $O(1)$
-
-```cpp
-std::size_t bucketIndex = us.bucket(5); // Get the bucket index for the element 5
-```
-
-<br>
-
-#### `load_factor`
-
-- **Description:** Returns the average number of elements per bucket.
-- **Complexity:** $O(1)$
-
-```cpp
-float loadFactor = us.load_factor(); // Get the load factor
-```
-
-<br>
-
-#### `max_load_factor`
-
-- **Description:** Returns or sets the maximum load factor, which is used to determine when the container should increase the number of buckets.
-- **Complexity:** $O(1)$
-
-```cpp
-us.max_load_factor(1.0); // Sets the maximum load factor to 1.0
-```
-
-<br>
-
----
-
-<br>
-
-## Other Operations
-
-<br>
-
-#### `swap`
-
-- **Description:** Swaps the content of two unordered sets.
-- **Complexity:** $O(1)$
-
-```cpp
-std::unordered_set<int> us2 = {9, 8, 7};
-us.swap(us2); // Swaps content of us and us2
-```
-
-<br>
-
-#### `assign`
-
-- **Description:** Assigns new values to the unordered set, replacing the old ones.
-- **Complexity:** $O(n)$
-
-```cpp
-us = {5, 6, 7, 8}; // Assigns new values to the unordered set
+std::unordered_set<int> s = {1, 2, 3};
+auto it = s.end();  // Points to the past-the-end element.
 ```
 
 <br>
@@ -311,28 +367,49 @@ us = {5, 6, 7, 8}; // Assigns new values to the unordered set
 
 <br>
 
-`std::unordered_set` uses a hash policy to manage the number of buckets and control when the container should be rehashed.
+###
 
-<br>
+ load_factor()
 
-#### `rehash`
+**Description:** Returns the average number of elements per bucket in the unordered set.
 
-- **Description:** Rehashes the unordered set so that it contains at least the specified number of buckets.
-- **Complexity:** $O(n)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-us.rehash(20); // Rehashes the unordered set to have at least 20 buckets
+std::unordered_set<int> s = {1, 2, 3};
+float lf = s.load_factor(); // Returns the current load factor.
 ```
 
 <br>
 
-#### `reserve`
+### max_load_factor()
 
-- **Description:** Reserves enough space to hold the specified number of elements without rehashing.
-- **Complexity:** $O(n)$
+**Description:** Sets the maximum load factor that controls when the unordered set will automatically rehash.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-us.reserve(50); // Reserves space for 50 elements
+std::unordered_set<int> s;
+s.max_load_factor(0.75f); // Sets the maximum load factor to 0.75.
+```
+
+<br>
+
+### rehash(size_type count)
+
+**Description:** Rehashes the unordered set to ensure it has at least `count` buckets.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::unordered_set<int> s = {1, 2, 3};
+s.rehash(10); // Rehashes the set with at least 10 buckets.
 ```
 
 <br>
@@ -341,28 +418,25 @@ us.reserve(50); // Reserves space for 50 elements
 
 <br>
 
-## Custom Hash Functions
+## Non-Member Functions
 
 <br>
 
-`std::unordered_set` allows the use of custom hash functions and comparison functions to control how elements are stored and compared.
+### operator ==
 
-<br>
+**Description:** Lexicographically compares two unordered sets for equality.
 
-#### Example of a custom hash function:
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
 
-```cpp
-struct CustomHash {
-    std::size_t operator()(int x) const {
-        return x % 10;
-    }
-};
-std::unordered_set<int, CustomHash> us;
-```
+### std::swap
 
-<br>
+**Description:** Specializes `std::swap` for unordered sets.
 
-In this example, the custom hash function stores elements based on their remainder when divided by 10.
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 <br>
 
@@ -370,9 +444,16 @@ In this example, the custom hash function stores elements based on their remaind
 
 <br>
 
-## Special Properties of `std::unordered_set`
+## Member Types
 
-- Elements are not ordered.
-- Average $O(1)$ time complexity for insertion, deletion, and lookup.
-- Allows custom hash functions and comparison functions.
-- Uses buckets and a hash function to organize elements.
+| Member Type        | Description                                    |
+|--------------------|------------------------------------------------|
+| `key_type`         | Type of the keys stored in the unordered set.   |
+| `value_type`       | Same as `key_type`.                             |
+| `size_type`        | Unsigned integer type representing the size.    |
+| `difference_type`  | Signed integer type for pointer differences.    |
+| `hasher`           | The hash function used to hash the keys.        |
+| `key_equal`        | The key comparison function.                    |
+| `allocator_type`   | The allocator used to allocate memory.          |
+| `iterator`         | Forward iterator to `value_type`.               |
+| `const_iterator`   | Constant forward iterator to `const value_type`.|
