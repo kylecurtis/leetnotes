@@ -1,29 +1,4 @@
-
-`std::vector` is a dynamic array that provides random access, constant time for element access, and amortized constant time for insertion at the end. It is the most commonly used sequence container in C++.
-
-<br>
-
----
-
-<br>
-
-## Time and Space Complexity Summary
-
-<br>
-
-| Operation         | Time Complexity | Space Complexity |
-|-------------------|-----------------|------------------|
-| Access (at, [])   | $O(1)$            | $O(1)$             |
-| Insert (end)      | Amortized $O(1)$  | $O(n)$ (if reallocation) |
-| Insert (middle)   | $O(n)$           | $O(n)$             |
-| Erase (end)       | $O(1)$            | $O(n)$             |
-| Erase (middle)    | $O(n)$            | $O(n)$            |
-| Push Back         | Amortized $O(1)$  | $O(n)$ (if reallocation) |
-| Pop Back          | $O(1)$            | $O(1)$             |
-| Size              | $O(1)$           | $O(1)$             |
-| Clear             | $O(n)$            | $O(1)$             |
-| Reserve           | $O(n)$            | $O(n)$             |
-| Resize            | $O(n)$            | $O(n)$             |
+`std::vector` is a sequence container representing arrays that can dynamically resize. Elements are stored contiguously, allowing random access and efficient addition/removal of elements at the end.
 
 <br>
 
@@ -31,11 +6,9 @@
 
 <br>
 
-## Setup
+## Header File
 
-<br>
-
-The `<vector>` library header is required.
+To use `std::vector`, you need to include the following header:
 
 ```cpp
 #include <vector>
@@ -47,38 +20,125 @@ The `<vector>` library header is required.
 
 <br>
 
-## Declaration
+## Time/Space Complexities Summary
+
+| Function               | Time Complexity | Space Complexity |
+|------------------------|-----------------|------------------|
+| Constructor (default)   | O(1)            | O(1)             |
+| Constructor (size)      | O(n)            | O(n)             |
+| size()                 | O(1)            | O(1)             |
+| capacity()             | O(1)            | O(1)             |
+| push_back()            | O(1) amortized  | O(n)             |
+| pop_back()             | O(1)            | O(1)             |
+| insert()               | O(n)            | O(n)             |
+| erase()                | O(n)            | O(1)             |
+| clear()                | O(n)            | O(1)             |
+| shrink_to_fit()        | O(n)            | O(1)             |
+| begin()/end()          | O(1)            | O(1)             |
+| swap()                 | O(1)            | O(1)             |
 
 <br>
 
-Create an empty vector:
+---
+
+<br>
+
+## Constructor
+
+<br>
+
+### std::vector()
+
+**Description:** Creates an empty vector.
+
+**Template Syntax:**
 
 ```cpp
-std::vector<int> vec;
+std::vector<data_type> vector_name;
+```
+
+- `data_type`: The type of elements stored in the vector.
+- `vector_name`: The name of the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::vector<int> v;
 ```
 
 <br>
 
-Create a vector with 10 default-initialized elements:
+### std::vector(size_type count)
+
+**Description:** Creates a vector with `count` default-initialized elements (i.e., elements are initialized with their default value, such as `0` for `int`).
+
+**Template Syntax:**
 
 ```cpp
-std::vector<int> vec(10);
+std::vector<data_type> vector_name(count);
+```
+
+- `data_type`: The type of elements stored in the vector.
+- `vector_name`: The name of the vector.
+- `count`: The number of elements to create in the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> v(10);  // Creates a vector with 10 default-initialized elements.
 ```
 
 <br>
 
-Create a vector with 10 elements, each initialized to 5:
+### std::vector(size_type count, const T& value)
+
+**Description:** Creates a vector with `count` elements, each initialized to `value`.
+
+**Template Syntax:**
 
 ```cpp
-std::vector<int> vec(10, 5);
+std::vector<data_type> vector_name(count, value);
+```
+
+- `data_type`: The type of elements stored in the vector.
+- `vector_name`: The name of the vector.
+- `count`: The number of elements to create in the vector.
+- `value`: The value to assign to each element.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> v(10, 5);  // Creates a vector with 10 elements, all initialized to 5.
 ```
 
 <br>
 
-Create a vector with elements 1, 2, and 3:
+### std::vector(std::initializer_list<T> init)
+
+**Description:** Creates a vector initialized with elements from an initializer list.
+
+**Template Syntax:**
 
 ```cpp
-std::vector<int> vec = {1, 2, 3};
+std::vector<data_type> vector_name = {value1, value2, value3, ...};
+```
+
+- `data_type`: The type of elements stored in the vector.
+- `vector_name`: The name of the vector.
+- `value1, value2, value3, ...`: The values to initialize the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};  // Creates a vector with the elements 1, 2, and 3.
 ```
 
 <br>
@@ -87,74 +147,81 @@ std::vector<int> vec = {1, 2, 3};
 
 <br>
 
-## Insertion and Deletion
+## Capacity Functions
 
 <br>
 
-#### `push_back`
+### size()
 
-- **Description:** Inserts an element at the end of the vector.
-- **Complexity:** Amortized $O(1)$, worst case $O(n)$ when reallocation happens.
-  
+**Description:** Returns the number of elements in the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
 ```cpp
-vec.push_back(5); // Adds 5 to the end of the vector
+std::vector<int> v = {1, 2, 3};
+size_t s = v.size(); // s = 3
 ```
 
 <br>
 
-#### `emplace_back`
+### capacity()
 
-- **Description:** Constructs and inserts an element at the end of the vector.
-- **Complexity:** Amortized $O(1)$, worst case $O(n)$ when reallocation happens.
+**Description:** Returns the number of elements that the vector can hold without reallocating.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-vec.emplace_back(10); // More efficient than push_back for complex objects
+std::vector<int> v = {1, 2, 3};
+size_t c = v.capacity();
 ```
 
 <br>
 
-#### `insert`
+### reserve(size_type new_cap)
 
-- **Description:** Inserts one or more elements before the given position.
-- **Complexity:** $O(n)$ in the worst case.
+**Description:** Reserves storage for at least `new_cap` elements, avoiding frequent reallocations.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
 
 ```cpp
-vec.insert(vec.begin() + 1, 100); // Inserts 100 at position 1
-vec.insert(vec.begin(), {4, 5, 6}); // Inserts multiple elements at the beginning
+std::vector<int> v;
+v.reserve(100);  // Reserves memory for 100 elements.
 ```
 
 <br>
 
-#### `pop_back`
+### shrink_to_fit()
 
-- **Description:** Removes the last element from the vector.
-- **Complexity:** $O(1)$
+**Description:** Reduces the capacity to fit the size, freeing unused memory.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
 
 ```cpp
-vec.pop_back(); // Removes the last element
+std::vector<int> v = {1, 2, 3};
+v.shrink_to_fit();  // Reduces capacity to match size.
 ```
 
 <br>
 
-#### `erase`
+### empty()
 
-- **Description:** Removes an element or a range of elements.
-- **Complexity:** $O(n)$ for range erasing.
+**Description:** Checks if the vector contains no elements.
 
-```cpp
-vec.erase(vec.begin() + 2); // Removes the element at position 2
-vec.erase(vec.begin(), vec.begin() + 2); // Removes elements in the range [begin, begin + 2)
-```
-
-<br>
-
-#### `clear`
-
-- **Description:** Removes all elements.
-- **Complexity:** $O(n)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-vec.clear(); // Removes all elements from the vector
+std::vector<int> v;
+bool is_empty = v.empty(); // true
 ```
 
 <br>
@@ -167,68 +234,62 @@ vec.clear(); // Removes all elements from the vector
 
 <br>
 
-#### `operator[]` and `at`
+### operator[] (subscript)
 
-- **Description:** Accesses an element at the given position.
-- **Complexity:** $O(1)$
+**Description:** Accesses the element at index `i`. No bounds checking.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-int x = vec[0]; // Access the first element (no bounds checking)
-int y = vec.at(2); // Access the third element (with bounds checking)
+std::vector<int> v = {1, 2, 3};
+int x = v[1]; // x = 2
 ```
 
 <br>
 
-#### `front` and `back`
+### at(size_type pos)
 
-- **Description:** Accesses the first or last element of the vector.
-- **Complexity:** $O(1)$
+**Description:** Accesses the element at index `pos` with bounds checking.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-int first = vec.front(); // Access the first element
-int last = vec.back(); // Access the last element
+std::vector<int> v = {1, 2, 3};
+int x = v.at(1); // x = 2
 ```
 
 <br>
 
----
+### front()
 
-<br>
+**Description:** Returns the first element in the vector.
 
-## Size Operations
-
-<br>
-
-#### `size`
-
-- **Description:** Returns the number of elements in the vector.
-- **Complexity:** $O(1)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::size_t sz = vec.size(); // Get the number of elements
+std::vector<int> v = {1, 2, 3};
+int x = v.front(); // x = 1
 ```
 
 <br>
 
-#### `empty`
+### back()
 
-- **Description:** Checks if the vector is empty.
-- **Complexity:** $O(1)$
+**Description:** Returns the last element in the vector.
 
-```cpp
-bool isEmpty = vec.empty(); // Returns true if the vector is empty
-```
-
-<br>
-
-#### `capacity` and `reserve`
-
-- **Description:** `capacity` returns the number of elements that can be held without reallocation. `reserve` requests capacity change.
-- **Complexity:** $O(1)$ for `capacity`, $O(n)$ for `reserve` in the worst case.
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::size_t cap = vec.capacity(); // Get current capacity
-vec.reserve(50); // Reserve capacity for 50 elements
+std::vector<int> v = {1, 2, 3};
+int x = v.back(); // x = 3
 ```
 
 <br>
@@ -237,29 +298,83 @@ vec.reserve(50); // Reserve capacity for 50 elements
 
 <br>
 
-## Resizing and Shrinking
+## Modifiers
 
 <br>
 
-#### `resize`
+### push_back(const T& value)
 
-- **Description:** Changes the size of the vector.
-- **Complexity:** $O(n)$
+**Description:** Adds an element to the end of the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) (amortized) | O(n) |
 
 ```cpp
-vec.resize(20); // Resize the vector to hold 20 elements
-vec.resize(5); // Shrink the vector to 5 elements
+std::vector<int> v;
+v.push_back(4);  // Adds 4 to the end of the vector.
 ```
 
 <br>
 
-#### `shrink_to_fit`
+### pop_back()
 
-- **Description:** Reduces the capacity of the vector to fit its size.
-- **Complexity:** $O(n)$
+**Description:** Removes the last element in the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-vec.shrink_to_fit(); // Shrinks capacity to fit the current size
+std::vector<int> v = {1, 2, 3};
+v.pop_back(); // v becomes {1, 2}
+```
+
+<br>
+
+### insert(iterator pos, const T& value)
+
+**Description:** Inserts `value` before the element at the given position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+v.insert(v.begin() + 1, 5); // v becomes {1, 5, 2, 3}
+```
+
+<br>
+
+### erase(iterator pos)
+
+**Description:** Erases the element at the given position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+v.erase(v.begin() + 1); // v becomes {1
+
+, 3}
+```
+
+<br>
+
+### clear()
+
+**Description:** Clears all elements from the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+v.clear(); // v becomes {}
 ```
 
 <br>
@@ -272,19 +387,62 @@ vec.shrink_to_fit(); // Shrinks capacity to fit the current size
 
 <br>
 
-#### `begin`, `end`, `rbegin`, `rend`
+### begin()
 
-- **Description:** Provides iterators for range-based loops and algorithms.
-- **Complexity:** $O(1)$
+**Description:** Returns an iterator to the first element.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-for (auto it = vec.begin(); it != vec.end(); ++it) {
-    std::cout << *it << " ";
-}
+std::vector<int> v = {1, 2, 3};
+auto it = v.begin();
+```
 
-for (auto rit = vec.rbegin(); rit != vec.rend(); ++rit) {
-    std::cout << *rit << " ";
-}
+<br>
+
+### end()
+
+**Description:** Returns an iterator to the element following the last element.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+auto it = v.end();
+```
+
+<br>
+
+### rbegin()
+
+**Description:** Returns a reverse iterator to the first element of the reversed vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+auto rit = v.rbegin();
+```
+
+<br>
+
+### rend()
+
+**Description:** Returns a reverse iterator to the element following the last element of the reversed vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+auto rit = v.rend();
 ```
 
 <br>
@@ -293,26 +451,114 @@ for (auto rit = vec.rbegin(); rit != vec.rend(); ++rit) {
 
 <br>
 
-## Other Operations
+## Special Functions
 
-#### `swap`
+<br>
 
-- **Description:** Swaps the content of two vectors.
-- **Complexity:** $O(1)$
+### swap(std::vector<T>& other)
+
+**Description:** Swaps the contents of two vectors.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::vector<int> vec2 = {9, 8, 7};
-vec.swap(vec2); // Swaps content of vec and vec2
+std::vector<int> v1 = {1, 2, 3};
+std::vector<int> v2 = {4, 5, 6};
+v1.swap(v2); // v1 becomes {4, 5, 6}, v2 becomes {1, 2, 3}
 ```
 
 <br>
 
-#### `assign`
+### get_allocator()
 
-- **Description:** Assigns new values to the vector, replacing the old ones.
-- **Complexity:** $O(n)$
+**Description:** Returns the allocator associated with the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-vec.assign(5, 100); // Assigns 5 elements with the value 100
-vec.assign({1, 2, 3, 4}); // Assigns initializer list
+std::vector<int> v;
+auto alloc = v.get_allocator();
 ```
+
+<br>
+
+---
+
+<br>
+
+## Iterator Invalidation
+
+**Description:** Some operations invalidate iterators. Here is a summary of when this occurs:
+
+| Operation          | Invalidated Iterators           |
+|--------------------|---------------------------------|
+| `push_back()`       | If capacity changes, all iterators are invalidated. Otherwise, only `end()` is invalidated. |
+| `insert()`         | Iterators from the point of insertion onwards are invalidated. |
+| `erase()`          | Erased elements and iterators after them are invalidated. |
+| `clear()`          | All iterators are invalidated. |
+| `swap()`           | `end()` is invalidated. |
+
+<br>
+
+---
+
+<br>
+
+## Member Types
+
+| Member Type        | Description                                    |
+|--------------------|------------------------------------------------|
+| `value_type`       | Type of elements in the vector (`T`).           |
+| `allocator_type`   | The allocator used to allocate memory.          |
+| `size_type`        | Unsigned integer type representing the size.    |
+| `difference_type`  | Signed integer type for pointer differences.    |
+| `iterator`         | A random-access iterator to `value_type`.       |
+| `const_iterator`   | A random-access iterator to `const value_type`. |
+
+<br>
+
+---
+
+<br>
+
+## Non-Member Functions
+
+<br>
+
+### operator ==
+
+**Description:** Lexicographically compares two vectors for equality.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+### operator <=>
+
+**Description:** Compares vectors using the three-way comparison operator.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+### std::swap
+
+**Description:** Specializes `std::swap` for vectors.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+<br>
+
+---
+
+<br>
+
+## Specialization for `vector<bool>`
+
+**Description:** A space-efficient specialization of `std::vector` that stores `bool` values as bits, significantly reducing memory usage.
