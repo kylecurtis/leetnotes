@@ -1,25 +1,4 @@
-
-`std::multiset` is an associative container that contains a sorted set of elements, where multiple elements can have the same value. Unlike `std::set`, `std::multiset` allows duplicates. It automatically sorts the elements in ascending order (by default). Internally, it is typically implemented as a self-balancing binary search tree.
-
-<br>
-
----
-
-<br>
-
-## Time and Space Complexity Summary
-
-<br>
-
-| Operation            | Time Complexity | Space Complexity |
-|----------------------|-----------------|------------------|
-| Access (find)        | $O(\log n)$     | $O(1)$           |
-| Insert               | $O(\log n)$     | $O(n)$           |
-| Erase (single)       | $O(\log n)$     | $O(n)$           |
-| Erase (range)        | $O(k + \log n)$ | $O(n)$           |
-| Size                 | $O(1)$          | $O(1)$           |
-| Clear                | $O(n)$          | $O(1)$           |
-| Traverse             | $O(n)$          | $O(n)$           |
+`std::multiset` is an associative container that contains multiple elements of the same key. Unlike `std::set`, a `std::multiset` allows duplicate elements. The elements are stored in a specific order determined by a comparison function, which by default is `std::less<Key>`. Search, insertion, and removal operations have logarithmic complexity.
 
 <br>
 
@@ -27,11 +6,9 @@
 
 <br>
 
-## Setup
+## Header File
 
-<br>
-
-The `<set>` library header is required.
+To use `std::multiset`, you need to include the following header:
 
 ```cpp
 #include <set>
@@ -43,11 +20,46 @@ The `<set>` library header is required.
 
 <br>
 
-## Declaration
+## Time/Space Complexities Summary
+
+| Function               | Time Complexity  | Space Complexity |
+|------------------------|------------------|------------------|
+| Constructor (default)   | O(1)             | O(1)             |
+| Constructor (range)     | O(n log n)       | O(n)             |
+| insert()               | O(log n)         | O(log n)         |
+| erase()                | O(log n)         | O(log n)         |
+| find()                 | O(log n)         | O(1)             |
+| count()                | O(log n)         | O(1)             |
+| clear()                | O(n)             | O(1)             |
+| swap()                 | O(1)             | O(1)             |
+| equal_range()          | O(log n)         | O(1)             |
 
 <br>
 
-Create an empty multiset:
+---
+
+<br>
+
+## Constructor
+
+<br>
+
+### std::multiset()
+
+**Description:** Constructs an empty multiset.
+
+**Template Syntax:**
+
+```cpp
+std::multiset<data_type> multiset_name;
+```
+
+- `data_type`: The type of the keys stored in the multiset.
+- `multiset_name`: The name of the multiset.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
 std::multiset<int> ms;
@@ -55,92 +67,104 @@ std::multiset<int> ms;
 
 <br>
 
-Create a multiset with elements 1, 2, and 3:
+### std::multiset(InputIt first, InputIt last)
+
+**Description:** Constructs a multiset from a range defined by iterators `[first, last)`.
+
+**Template Syntax:**
+
+```cpp
+std::multiset<data_type> multiset_name(iterator_first, iterator_last);
+```
+
+- `data_type`: The type of the keys stored in the multiset.
+- `multiset_name`: The name of the multiset.
+- `iterator_first`, `iterator_last`: Iterators defining the range of elements to insert.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n log n) | O(n) |
+
+```cpp
+std::vector<int> vec = {1, 2, 3};
+std::multiset<int> ms(vec.begin(), vec.end());
+```
+
+<br>
+
+### std::multiset(std::initializer_list<T> init)
+
+**Description:** Constructs a multiset initialized with elements from an initializer list.
+
+**Template Syntax:**
+
+```cpp
+std::multiset<data_type> multiset_name = {value1, value2, value3, ...};
+```
+
+- `data_type`: The type of the keys stored in the multiset.
+- `multiset_name`: The name of the multiset.
+- `value1, value2, value3, ...`: The values to initialize the multiset.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n log n) | O(n) |
+
+```cpp
+std::multiset<int> ms = {1, 2, 3};  // Creates a multiset with elements 1, 2, and 3.
+```
+
+<br>
+
+---
+
+<br>
+
+## Capacity Functions
+
+<br>
+
+### size()
+
+**Description:** Returns the number of elements in the multiset.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
 std::multiset<int> ms = {1, 2, 3};
+size_t sz = ms.size(); // sz = 3
 ```
 
 <br>
 
-Create a multiset with a custom comparator (descending order):
+### empty()
+
+**Description:** Checks if the multiset contains no elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-auto cmp = [](int a, int b) { return a > b; };
-std::multiset<int, decltype(cmp)> ms(cmp); // Multiset with custom comparator
+std::multiset<int> ms;
+bool is_empty = ms.empty(); // true
 ```
 
 <br>
 
----
+### max_size()
 
-<br>
+**Description:** Returns the maximum number of elements that the multiset can hold.
 
-## Insertion and Deletion
-
-<br>
-
-#### `insert`
-
-- **Description:** Inserts an element into the multiset.
-- **Complexity:** $O(\log n)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-ms.insert(5); // Adds 5 to the multiset
-```
-
-Multiple duplicate elements can be added:
-
-```cpp
-ms.insert(5); // Adds another 5 to the multiset
-```
-
-<br>
-
-#### `emplace`
-
-- **Description:** Constructs and inserts an element into the multiset in-place.
-- **Complexity:** $O(\log n)$
-
-```cpp
-ms.emplace(10); // Constructs and adds 10 to the multiset
-```
-
-<br>
-
-#### `erase`
-
-- **Description:** Removes the element(s) matching the given key or position.
-- **Complexity:** $O(\log n)$
-
-```cpp
-ms.erase(5); // Removes all elements with key 5
-```
-
-- **Erase by iterator:**
-
-```cpp
-auto it = ms.find(10);
-if (it != ms.end()) {
-    ms.erase(it); // Removes a single occurrence of the element 10
-}
-```
-
-- **Erase by range:**
-
-```cpp
-ms.erase(ms.begin(), ms.end()); // Removes all elements
-```
-
-<br>
-
-#### `clear`
-
-- **Description:** Removes all elements from the multiset.
-- **Complexity:** $O(n)$
-
-```cpp
-ms.clear(); // Removes all elements from the multiset
+std::multiset<int> ms;
+size_t max_sz = ms.max_size();
 ```
 
 <br>
@@ -149,64 +173,97 @@ ms.clear(); // Removes all elements from the multiset
 
 <br>
 
-## Element Access
+## Modifiers
 
 <br>
 
-#### `find`
+### insert(const T& value)
 
-- **Description:** Searches for the first occurrence of the element with the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Inserts an element into the multiset. Since `std::multiset` allows duplicates, this does not prevent the insertion of elements that are already present.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(log n) |
 
 ```cpp
-auto it = ms.find(5); // Searches for 5 in the multiset
-if (it != ms.end()) {
-    std::cout << "Found 5";
-}
+std::multiset<int> ms = {1, 2, 3};
+ms.insert(4);  // Inserts 4 into the multiset.
 ```
 
 <br>
 
-#### `count`
+### insert(InputIt first, InputIt last)
 
-- **Description:** Returns the number of elements that match the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Inserts elements from the range `[first, last)`.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n log n) | O(n) |
 
 ```cpp
-std::size_t cnt = ms.count(5); // Returns the number of occurrences of 5
+std::vector<int> vec = {4, 5, 6};
+ms.insert(vec.begin(), vec.end());  // Inserts elements from the vector into the multiset.
 ```
 
 <br>
 
-#### `lower_bound`
+### emplace(Args&&... args)
 
-- **Description:** Returns an iterator to the first element that is not less than the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Constructs an element in place within the multiset.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(log n) |
 
 ```cpp
-auto it = ms.lower_bound(5); // Iterator to the first element >= 5
+std::multiset<int> ms;
+ms.emplace(4); // Constructs 4 directly in the multiset.
 ```
 
 <br>
 
-#### `upper_bound`
+### erase(iterator pos)
 
-- **Description:** Returns an iterator to the first element that is greater than the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Erases the element at the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
 
 ```cpp
-auto it = ms.upper_bound(5); // Iterator to the first element > 5
+std::multiset<int> ms = {1, 2, 3};
+ms.erase(ms.begin()); // Erases the first element (1).
 ```
 
 <br>
 
-#### `equal_range`
+### clear()
 
-- **Description:** Returns a pair of iterators that represents the range of elements that are equal to the given key.
-- **Complexity:** $O(\log n)$
+**Description:** Clears the multiset by removing all elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
 
 ```cpp
-auto range = ms.equal_range(5); // Returns pair of iterators to elements equal to 5
+std::multiset<int> ms = {1, 2, 3};
+ms.clear(); // Empties the multiset.
+```
+
+<br>
+
+### swap(std::multiset& other)
+
+**Description:** Swaps the contents of two multisets.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::multiset<int> ms1 = {1, 2, 3};
+std::multiset<int> ms2 = {4, 5, 6};
+ms1.swap(ms2);  // ms1 becomes {4, 5, 6}, and ms2 becomes {1, 2, 3}.
 ```
 
 <br>
@@ -215,28 +272,51 @@ auto range = ms.equal_range(5); // Returns pair of iterators to elements equal t
 
 <br>
 
-## Size Operations
+## Lookup Functions
 
 <br>
 
-#### `size`
+### find(const Key& key)
 
-- **Description:** Returns the number of elements in the multiset.
-- **Complexity:** $O(1)$
+**Description:** Finds an element with the given `key` and returns an iterator to it, or `end()` if not found.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
 
 ```cpp
-std::size_t sz = ms.size(); // Get the number of elements
+std::multiset<int> ms = {1, 2, 3};
+auto it = ms.find(2);  // Returns an iterator to 2.
 ```
 
 <br>
 
-#### `empty`
+### count(const Key& key)
 
-- **Description:** Checks if the multiset is empty.
-- **Complexity:** $O(1)$
+**Description:** Returns the number of elements matching the key.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
 
 ```cpp
-bool isEmpty = ms.empty(); // Returns true if the multiset is empty
+std::multiset<int> ms = {1, 2, 3, 3};
+size_t count = ms.count(3);  // count = 2
+```
+
+<br>
+
+### equal_range(const Key& key)
+
+**Description:** Returns a pair of iterators denoting the range of elements that are equivalent to the key.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::multiset<int> ms = {1, 2, 3, 3};
+auto range = ms.equal_range(3);  // Returns a pair of iterators to the range of elements equal to 3.
 ```
 
 <br>
@@ -249,15 +329,32 @@ bool isEmpty = ms.empty(); // Returns true if the multiset is empty
 
 <br>
 
-#### `begin`, `end`, `rbegin`, `rend`
+### begin()
 
-- **Description:** Provides iterators for range-based loops and algorithms.
-- **Complexity:** $O(1)$
+**Description:** Returns an iterator to the first element in the multiset.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-for (auto it = ms.begin(); it != ms.end(); ++it) {
-    std::cout << *it << " ";
-}
+std::multiset<int> ms = {1, 2, 3};
+auto it = ms.begin();  // Points to the first element.
+```
+
+<br>
+
+### end()
+
+**Description:** Returns an iterator to the element following the last element in the multiset.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::multiset<int> ms = {1, 2, 3};
+auto it = ms.end();  // Points to the past-the-end element.
 ```
 
 <br>
@@ -266,60 +363,36 @@ for (auto it = ms.begin(); it != ms.end(); ++it) {
 
 <br>
 
-## Other Operations
+## Observers
 
 <br>
 
-#### `swap`
+### key_comp()
 
-- **Description:** Swaps the content of two multisets.
-- **Complexity:** $O(1)$
+**Description:** Returns the function that compares the keys.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::multiset<int> ms2 = {9, 8, 7};
-ms.swap(ms2); // Swaps content of ms and ms2
+std::multiset<int> ms;
+auto comp = ms.key_comp();
 ```
 
 <br>
 
-#### `assign`
+### value_comp()
 
-- **Description:** Assigns new values to the multiset, replacing the old ones.
-- **Complexity:** $O(n \log n)$
+**Description:** Returns a function that compares values in the multiset.
 
-```cpp
-ms = {5, 6, 7, 8}; // Assigns new values to the multiset
-```
-
-<br>
-
----
-
-<br>
-
-## Set Operations
-
-<br>
-
-#### `merge`
-
-- **Description:** Merges two multisets (the source multiset is not emptied).
-- **Complexity:** $O(n \log n)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::multiset<int> ms2 = {1, 4, 6};
-ms.merge(ms2); // Merges ms2 into ms, ms2 retains its elements
-```
-
-<br>
-
-#### `equal_range`
-
-- **Description:** Returns a range of elements that are equal to the given key.
-- **Complexity:** $O(\log n)$
-
-```cpp
-auto range = ms.equal_range(5); // Returns a pair of iterators for range of elements == 5
+std::multiset<int> ms;
+auto comp = ms.value_comp();
 ```
 
 <br>
@@ -328,20 +401,25 @@ auto range = ms.equal_range(5); // Returns a pair of iterators for range of elem
 
 <br>
 
-## Custom Comparators
+## Non-Member Functions
 
 <br>
 
-#### Example of a custom comparator (Descending order):
+### operator ==
 
-```cpp
-auto cmp = [](int a, int b) { return a > b; };
-std::multiset<int, decltype(cmp)> ms(cmp);
-```
+**Description:** Lexicographically compares two multisets for equality.
 
-<br>
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
 
-In this example, the multiset will store the elements in descending order instead of the default ascending order.
+### std::swap
+
+**Description:** Specializes `std::swap` for multisets.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 <br>
 
@@ -349,10 +427,18 @@ In this example, the multiset will store the elements in descending order instea
 
 <br>
 
-## Special Properties of `std::multiset`
+## Member Types
 
-<br>
-
-- Unlike `std::set`, `std::multiset` allows duplicate elements.
-- Elements are stored in a specific order (ascending by default).
-- Efficient insertion, deletion, and lookup with $O(\log n)$ complexity.
+| Member Type        | Description                                    |
+|--------------------|------------------------------------------------|
+| `key_type`         | Type of the keys stored in the multiset.        |
+| `value_type`       | Same as `key_type`.                             |
+| `size_type`        | Unsigned integer type representing the size.    |
+| `difference_type`  | Signed integer type for pointer differences.    |
+| `key_compare`      | The key comparison function.                    |
+| `value_compare`    | The value comparison function.                  |
+| `allocator_type`   | The allocator used to allocate memory.          |
+| `iterator`         | Constant bidirectional iterator to `value_type`.|
+| `const_iterator`   | Constant bidirectional iterator to `const value_type`.|
+| `reverse_iterator` | Reverse iterator to `value_type`.               |
+| `const_reverse_iterator` | Reverse iterator to `const value_type`.   |
