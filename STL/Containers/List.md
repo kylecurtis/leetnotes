@@ -1,30 +1,4 @@
-
-`std::list` is a doubly-linked list that allows efficient insertion and deletion of elements from both the front and back. Unlike `std::vector` and `std::deque`, accessing elements by index is not constant time since `std::list` does not provide random access. It is best suited for use cases where frequent insertions or deletions are required in the middle of a sequence.
-
-<br>
-
----
-
-<br>
-
-## Time and Space Complexity Summary
-
-<br>
-
-| Operation         | Time Complexity | Space Complexity |
-|-------------------|-----------------|------------------|
-| Access (front/back) | $O(1)$         | $O(1)$           |
-| Access (middle)    | $O(n)$          | $O(n)$           |
-| Insert (front/back)| $O(1)$          | $O(1)$           |
-| Insert (middle)    | $O(1)$ for insertion, traversal $O(n)$ | $O(1)$ |
-| Erase (front/back) | $O(1)$          | $O(n)$           |
-| Erase (middle)     | $O(1)$ for erasure, traversal $O(n)$ | $O(n)$ |
-| Push Front         | $O(1)$          | $O(1)$           |
-| Push Back          | $O(1)$          | $O(1)$           |
-| Pop Front          | $O(1)$          | $O(1)$           |
-| Pop Back           | $O(1)$          | $O(1)$           |
-| Size               | $O(1)$          | $O(1)$           |
-| Clear              | $O(n)$          | $O(1)$           |
+`std::list` is a doubly linked list that supports constant time insertion and removal of elements from anywhere in the container. It allows for efficient bidirectional traversal, but does not provide fast random access (unlike `std::vector`). It is more memory-efficient than `std::forward_list`, which only supports singly linked lists.
 
 <br>
 
@@ -32,11 +6,9 @@
 
 <br>
 
-## Setup
+## Header File
 
-<br>
-
-The `<list>` library header is required.
+To use `std::list`, you need to include the following header:
 
 ```cpp
 #include <list>
@@ -48,11 +20,50 @@ The `<list>` library header is required.
 
 <br>
 
-## Declaration
+## Time/Space Complexities Summary
+
+| Function               | Time Complexity  | Space Complexity |
+|------------------------|------------------|------------------|
+| Constructor (default)   | O(1)             | O(1)             |
+| Constructor (range)     | O(n)             | O(n)             |
+| insert()               | O(1)             | O(1)             |
+| erase()                | O(1)             | O(1)             |
+| find()                 | O(n)             | O(1)             |
+| clear()                | O(n)             | O(1)             |
+| push_back()            | O(1)             | O(1)             |
+| push_front()           | O(1)             | O(1)             |
+| pop_back()             | O(1)             | O(1)             |
+| pop_front()            | O(1)             | O(1)             |
+| merge()                | O(n)             | O(1)             |
+| sort()                 | O(n log n)       | O(1)             |
+| splice()               | O(1)             | O(1)             |
 
 <br>
 
-Create an empty list:
+---
+
+<br>
+
+## Constructor
+
+<br>
+
+### std::list()
+
+**Description:** Constructs an empty list.
+
+**Template Syntax:**
+
+```cpp
+std::list<data_type> list_name;
+```
+
+- `data_type`: The type of the elements stored in the list.
+- `list_name`: The name of the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
 std::list<int> lst;
@@ -60,26 +71,104 @@ std::list<int> lst;
 
 <br>
 
-Create a list with 10 default-initialized elements:
+### std::list(InputIt first, InputIt last)
+
+**Description:** Constructs a list from a range defined by iterators `[first, last)`.
+
+**Template Syntax:**
 
 ```cpp
-std::list<int> lst(10);
+std::list<data_type> list_name(iterator_first, iterator_last);
+```
+
+- `data_type`: The type of the elements stored in the list.
+- `list_name`: The name of the list.
+- `iterator_first`, `iterator_last`: Iterators defining the range of elements to insert.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> vec = {1, 2, 3};
+std::list<int> lst(vec.begin(), vec.end());
 ```
 
 <br>
 
-Create a list with 10 elements, each initialized to 5:
+### std::list(std::initializer_list<T> init)
+
+**Description:** Constructs a list initialized with elements from an initializer list.
+
+**Template Syntax:**
 
 ```cpp
-std::list<int> lst(10, 5);
+std::list<data_type> list_name = {value1, value2, value3, ...};
+```
+
+- `data_type`: The type of the elements stored in the list.
+- `list_name`: The name of the list.
+- `value1, value2, value3, ...`: The values to initialize the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::list<int> lst = {1, 2, 3};  // Creates a list with elements 1, 2, and 3.
 ```
 
 <br>
 
-Create a list with elements 1, 2, and 3:
+---
+
+<br>
+
+## Capacity Functions
+
+<br>
+
+### size()
+
+**Description:** Returns the number of elements in the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
 std::list<int> lst = {1, 2, 3};
+size_t sz = lst.size(); // sz = 3
+```
+
+<br>
+
+### empty()
+
+**Description:** Checks if the list contains no elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst;
+bool is_empty = lst.empty(); // true
+```
+
+<br>
+
+### max_size()
+
+**Description:** Returns the maximum number of elements that the list can hold.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst;
+size_t max_sz = lst.max_size();
 ```
 
 <br>
@@ -88,161 +177,111 @@ std::list<int> lst = {1, 2, 3};
 
 <br>
 
-## Insertion and Deletion
+## Modifiers
 
 <br>
 
-#### `push_back`
+### insert(iterator pos, const T& value)
 
-- **Description:** Inserts an element at the end of the list.
-- **Complexity:** $O(1)$
+**Description:** Inserts an element at the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-lst.push_back(5); // Adds 5 to the end of the list
+std::list<int> lst = {1, 2, 3};
+lst.insert(++lst.begin(), 4); // Inserts 4 after the first element.
 ```
 
 <br>
 
-#### `push_front`
+### erase(iterator pos)
 
-- **Description:** Inserts an element at the front of the list.
-- **Complexity:** $O(1)$
+**Description:** Erases the element at the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-lst.push_front(10); // Adds 10 to the front of the list
+std::list<int> lst = {1, 2, 3};
+lst.erase(++lst.begin()); // Erases the second element (2).
 ```
 
 <br>
 
-#### `emplace_back`
+### clear()
 
-- **Description:** Constructs and inserts an element at the back of the list.
-- **Complexity:** $O(1)$
+**Description:** Clears the list by removing all elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
 
 ```cpp
-lst.emplace_back(15); // Constructs and adds 15 to the end of the list
+std::list<int> lst = {1, 2, 3};
+lst.clear(); // Empties the list.
 ```
 
 <br>
 
-#### `emplace_front`
+### push_back(const T& value)
 
-- **Description:** Constructs and inserts an element at the front of the list.
-- **Complexity:** $O(1)$
+**Description:** Adds an element to the end of the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-lst.emplace_front(20); // Constructs and adds 20 to the front of the list
+std::list<int> lst = {1, 2, 3};
+lst.push_back(4); // Adds 4 to the end of the list.
 ```
 
 <br>
 
-#### `insert`
+### push_front(const T& value)
 
-- **Description:** Inserts one or more elements before the given position.
-- **Complexity:** $O(1)$ for insertion, traversal $O(n)$
+**Description:** Adds an element to the beginning of the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-auto it = lst.begin();
-std::advance(it, 1);
-lst.insert(it, 100); // Inserts 100 at position 1
-lst.insert(lst.begin(), {4, 5, 6}); // Inserts multiple elements at the beginning
+std::list<int> lst = {1, 2, 3};
+lst.push_front(0); // Adds 0 to the front of the list.
 ```
 
 <br>
 
-#### `pop_back`
+### pop_back()
 
-- **Description:** Removes the last element from the list.
-- **Complexity:** $O(1)$
+**Description:** Removes the last element from the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-lst.pop_back(); // Removes the last element
+std::list<int> lst = {1, 2, 3};
+lst.pop_back(); // Removes the last element (3).
 ```
 
 <br>
 
-#### `pop_front`
+### pop_front()
 
-- **Description:** Removes the first element from the list.
-- **Complexity:** $O(1)$
+**Description:** Removes the first element from the list.
 
-```cpp
-lst.pop_front(); // Removes the first element
-```
-
-<br>
-
-#### `erase`
-
-- **Description:** Removes an element or a range of elements.
-- **Complexity:** $O(1)$ for erasure, traversal $O(n)$
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-auto it = lst.begin();
-std::advance(it, 2);
-lst.erase(it); // Removes the element at position 2
-lst.erase(lst.begin(), std::next(lst.begin(), 2)); // Removes elements in the range [begin, begin + 2)
-```
-
-<br>
-
-#### `clear`
-
-- **Description:** Removes all elements.
-- **Complexity:** $O(n)$
-
-```cpp
-lst.clear(); // Removes all elements from the list
-```
-
-<br>
-
----
-
-<br>
-
-## Element Access
-
-<br>
-
-#### `front` and `back`
-
-- **Description:** Accesses the first or last element of the list.
-- **Complexity:** $O(1)$
-
-```cpp
-int first = lst.front(); // Access the first element
-int last = lst.back(); // Access the last element
-```
-
-<br>
-
----
-
-<br>
-
-## Size Operations
-
-<br>
-
-#### `size`
-
-- **Description:** Returns the number of elements in the list.
-- **Complexity:** $O(1)$
-
-```cpp
-std::size_t sz = lst.size(); // Get the number of elements
-```
-
-<br>
-
-#### `empty`
-
-- **Description:** Checks if the list is empty.
-- **Complexity:** $O(1)$
-
-```cpp
-bool isEmpty = lst.empty(); // Returns true if the list is empty
+std::list<int> lst = {1, 2, 3};
+lst.pop_front(); // Removes the first element (1).
 ```
 
 <br>
@@ -255,19 +294,62 @@ bool isEmpty = lst.empty(); // Returns true if the list is empty
 
 <br>
 
-#### `begin`, `end`, `rbegin`, `rend`
+### begin()
 
-- **Description:** Provides iterators for range-based loops and algorithms.
-- **Complexity:** $O(1)$
+**Description:** Returns an iterator to the first element in the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-for (auto it = lst.begin(); it != lst.end(); ++it) {
-    std::cout << *it << " ";
-}
+std::list<int> lst = {1, 2, 3};
+auto it = lst.begin();  // Points to the first element.
+```
 
-for (auto rit = lst.rbegin(); rit != lst.rend(); ++rit) {
-    std::cout << *rit << " ";
-}
+<br>
+
+### end()
+
+**Description:** Returns an iterator to the element following the last element in the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3};
+auto it = lst.end();  // Points to the past-the-end element.
+```
+
+<br>
+
+### rbegin()
+
+**Description:** Returns a reverse iterator to the first element of the reversed list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3};
+auto rit = lst.rbegin();  // Points to the last element (in reverse order).
+```
+
+<br>
+
+### rend()
+
+**Description:** Returns a reverse iterator to the element following the last element of the reversed list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3};
+auto rit = lst.rend();  // Points to the past-the-end element in reverse order.
 ```
 
 <br>
@@ -276,30 +358,70 @@ for (auto rit = lst.rbegin(); rit != lst.rend(); ++rit) {
 
 <br>
 
-## Other Operations
+## Operations
 
 <br>
 
-#### `swap`
+### sort()
 
-- **Description:** Swaps the content of two lists.
-- **Complexity:** $O(1)$
+**Description:** Sorts the elements in the list in ascending order.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n log n) | O(1) |
+
+
 
 ```cpp
-std::list<int> lst2 = {9, 8, 7};
-lst.swap(lst2); // Swaps content of lst and lst2
+std::list<int> lst = {3, 1, 2};
+lst.sort(); // Sorts the list to {1, 2, 3}.
 ```
 
 <br>
 
-#### `assign`
+### reverse()
 
-- **Description:** Assigns new values to the list, replacing the old ones.
-- **Complexity:** $O(n)$
+**Description:** Reverses the order of the elements in the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
 
 ```cpp
-lst.assign(5, 100); // Assigns 5 elements with the value 100
-lst.assign({1, 2, 3, 4}); // Assigns initializer list
+std::list<int> lst = {1, 2, 3};
+lst.reverse(); // Reverses the list to {3, 2, 1}.
+```
+
+<br>
+
+### merge(std::list& other)
+
+**Description:** Merges two sorted lists into one sorted list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::list<int> lst1 = {1, 3, 5};
+std::list<int> lst2 = {2, 4, 6};
+lst1.merge(lst2); // Merges lst2 into lst1.
+```
+
+<br>
+
+### splice(const_iterator pos, std::list& other)
+
+**Description:** Transfers elements from another list into this list at the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst1 = {1, 2, 3};
+std::list<int> lst2 = {4, 5, 6};
+lst1.splice(lst1.end(), lst2);  // Moves all elements of lst2 into lst1.
 ```
 
 <br>
@@ -308,18 +430,21 @@ lst.assign({1, 2, 3, 4}); // Assigns initializer list
 
 <br>
 
-## Splice Operations
+## Observers
 
 <br>
 
-#### `splice`
+### get_allocator()
 
-- **Description:** Transfers elements from one list to another.
-- **Complexity:** $O(1)$ for splice, $O(n)$ traversal if necessary.
+**Description:** Returns the allocator used by the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 ```cpp
-std::list<int> lst2 = {50, 60, 70};
-lst.splice(lst.begin(), lst2); // Transfers all elements from lst2 to the front of lst
+std::list<int> lst;
+auto alloc = lst.get_allocator();
 ```
 
 <br>
@@ -328,27 +453,45 @@ lst.splice(lst.begin(), lst2); // Transfers all elements from lst2 to the front 
 
 <br>
 
-## Sorting and Merging
+## Non-Member Functions
 
 <br>
 
-#### `sort`
+### operator ==
 
-- **Description:** Sorts the elements in ascending order.
-- **Complexity:** $O(n \log n)$
+**Description:** Lexicographically compares two lists for equality.
 
-```cpp
-lst.sort(); // Sorts the list in ascending order
-```
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+### std::swap
+
+**Description:** Specializes `std::swap` for lists.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
 
 <br>
 
-#### `merge`
+---
 
-- **Description:** Merges two sorted lists into one sorted list.
-- **Complexity:** $O(n)$
+<br>
 
-```cpp
-std::list<int> lst2 = {1, 3, 5};
-lst.merge(lst2); // Merges lst2 into lst
-```
+## Member Types
+
+| Member Type        | Description                                    |
+|--------------------|------------------------------------------------|
+| `value_type`       | Type of elements in the list.                   |
+| `allocator_type`   | Allocator used to allocate memory.              |
+| `size_type`        | Unsigned integer type representing the size.    |
+| `difference_type`  | Signed integer type for pointer differences.    |
+| `reference`        | Reference to `value_type`.                      |
+| `const_reference`  | Constant reference to `value_type`.             |
+| `pointer`          | Pointer to `value_type`.                        |
+| `const_pointer`    | Constant pointer to `value_type`.               |
+| `iterator`         | Bidirectional iterator to `value_type`.         |
+| `const_iterator`   | Constant bidirectional iterator to `value_type`.|
+| `reverse_iterator` | Reverse iterator to `value_type`.               |
+| `const_reverse_iterator` | Constant reverse iterator to `value_type`.|
