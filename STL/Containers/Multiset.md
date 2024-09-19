@@ -27,12 +27,17 @@ To use `std::multiset`, you need to include the following header:
 | Constructor (default)   | O(1)             | O(1)             |
 | Constructor (range)     | O(n log n)       | O(n)             |
 | insert()               | O(log n)         | O(log n)         |
-| erase()                | O(log n)         | O(log n)         |
+| emplace()              | O(log n)         | O(log n)         |
+| emplace_hint()         | O(log n)         | O(log n)         |
+| erase(iterator)        | O(log n)         | O(1)             |
+| erase(key)             | O(log n)         | O(1)             |
 | find()                 | O(log n)         | O(1)             |
 | count()                | O(log n)         | O(1)             |
-| clear()                | O(n)             | O(1)             |
-| swap()                 | O(1)             | O(1)             |
+| lower_bound()          | O(log n)         | O(1)             |
+| upper_bound()          | O(log n)         | O(1)             |
 | equal_range()          | O(log n)         | O(1)             |
+| clear()                | O(n)             | O(1)             |
+| swap()                 | O(1) or O(n)     | O(1)             |
 
 <br>
 
@@ -222,6 +227,21 @@ ms.emplace(4); // Constructs 4 directly in the multiset.
 
 <br>
 
+### emplace_hint(const_iterator hint, Args&&... args)
+
+**Description:** Constructs an element in place within the multiset, using a hint for insertion.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(log n) |
+
+```cpp
+std::multiset<int> ms = {1, 2, 3};
+auto it = ms.emplace_hint(ms.begin(), 4);  // Constructs 4 in place with a hint.
+```
+
+<br>
+
 ### erase(iterator pos)
 
 **Description:** Erases the element at the specified position.
@@ -233,6 +253,21 @@ ms.emplace(4); // Constructs 4 directly in the multiset.
 ```cpp
 std::multiset<int> ms = {1, 2, 3};
 ms.erase(ms.begin()); // Erases the first element (1).
+```
+
+<br>
+
+### erase(const Key& key)
+
+**Description:** Removes all elements corresponding to the key value.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::multiset<int> ms = {1, 2, 3, 3};
+ms.erase(3);  // Removes all elements with key 3.
 ```
 
 <br>
@@ -258,7 +293,7 @@ ms.clear(); // Empties the multiset.
 
 | Time Complexity | Space Complexity |
 | :--: | :---: |
-| O(1) | O(1) |
+| O(1) or O(n) | O(1) |
 
 ```cpp
 std::multiset<int> ms1 = {1, 2, 3};
@@ -302,6 +337,36 @@ auto it = ms.find(2);  // Returns an iterator to 2.
 ```cpp
 std::multiset<int> ms = {1, 2, 3, 3};
 size_t count = ms.count(3);  // count = 2
+```
+
+<br>
+
+### lower_bound(const Key& key)
+
+**Description:** Returns an iterator to the first element that is not less than the given key.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::multiset<int> ms = {1, 2, 3, 3};
+auto it = ms.lower_bound(3);  // Iterator points to the first occurrence of 3.
+```
+
+<br>
+
+### upper_bound(const Key& key)
+
+**Description:** Returns an iterator to the first element that is greater than the given key.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::multiset<int> ms = {1, 2, 3, 3};
+auto it = ms.upper_bound(3);  // Iterator points to the first element greater than 3.
 ```
 
 <br>
@@ -419,7 +484,7 @@ auto comp = ms.value_comp();
 
 | Time Complexity | Space Complexity |
 | :--: | :---: |
-| O(1) | O(1) |
+| O(1) or O(n) | O(1) |
 
 <br>
 
@@ -429,16 +494,16 @@ auto comp = ms.value_comp();
 
 ## Member Types
 
-| Member Type        | Description                                    |
-|--------------------|------------------------------------------------|
-| `key_type`         | Type of the keys stored in the multiset.        |
-| `value_type`       | Same as `key_type`.                             |
-| `size_type`        | Unsigned integer type representing the size.    |
-| `difference_type`  | Signed integer type for pointer differences.    |
-| `key_compare`      | The key comparison function.                    |
-| `value_compare`    | The value comparison function.                  |
-| `allocator_type`   | The allocator used to allocate memory.          |
-| `iterator`         | Constant bidirectional iterator to `value_type`.|
-| `const_iterator`   | Constant bidirectional iterator to `const value_type`.|
-| `reverse_iterator` | Reverse iterator to `value_type`.               |
-| `const_reverse_iterator` | Reverse iterator to `const value_type`.   |
+| Member Type              | Description                                    |
+|--------------------------|------------------------------------------------|
+| `key_type`               | Type of the keys stored in the multiset.        |
+| `value_type`             | Same as `key_type`.                             |
+| `size_type`              | Unsigned integer type representing the size.    |
+| `difference_type`        | Signed integer type for pointer differences.    |
+| `key_compare`            | The key comparison function.                    |
+| `value_compare`          | The value comparison function.                  |
+| `allocator_type`         | The allocator used to allocate memory.          |
+| `iterator`               | Constant bidirectional iterator to `value_type`.|
+| `const_iterator`         | Bidirectional iterator to `const value_type`.   |
+| `reverse_iterator`       | Reverse iterator to `value_type`.               |
+| `const_reverse_iterator` | Reverse iterator to `const value_type`.         |
