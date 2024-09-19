@@ -27,11 +27,17 @@ To use `std::set`, you need to include the following header:
 | Constructor (default)   | O(1)             | O(1)             |
 | Constructor (range)     | O(n log n)       | O(n)             |
 | insert()               | O(log n)         | O(log n)         |
-| erase()                | O(log n)         | O(log n)         |
+| emplace()              | O(log n)         | O(log n)         |
+| emplace_hint()         | O(log n)         | O(log n)         |
+| erase(iterator)        | O(log n)         | O(1)             |
+| erase(key)             | O(log n)         | O(1)             |
 | find()                 | O(log n)         | O(1)             |
 | count()                | O(log n)         | O(1)             |
+| lower_bound()          | O(log n)         | O(1)             |
+| upper_bound()          | O(log n)         | O(1)             |
+| equal_range()          | O(log n)         | O(1)             |
 | clear()                | O(n)             | O(1)             |
-| swap()                 | O(1)             | O(1)             |
+| swap()                 | O(1) or O(n)     | O(1)             |
 
 <br>
 
@@ -221,6 +227,21 @@ s.emplace(4); // Constructs 4 directly in the set.
 
 <br>
 
+### emplace_hint(const_iterator hint, Args&&... args)
+
+**Description:** Constructs an element in place within the set, using a hint for insertion.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(log n) |
+
+```cpp
+std::set<int> s = {1, 2, 3};
+auto it = s.emplace_hint(s.begin(), 4);  // Constructs 4 in place with a hint.
+```
+
+<br>
+
 ### erase(iterator pos)
 
 **Description:** Erases the element at the specified position.
@@ -232,6 +253,21 @@ s.emplace(4); // Constructs 4 directly in the set.
 ```cpp
 std::set<int> s = {1, 2, 3};
 s.erase(s.begin()); // Erases the first element (1).
+```
+
+<br>
+
+### erase(const Key& key)
+
+**Description:** Removes the element corresponding to the key value.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::set<int> s = {1, 2, 3};
+s.erase(2);  // Removes the element with key 2.
 ```
 
 <br>
@@ -257,7 +293,7 @@ s.clear(); // Empties the set.
 
 | Time Complexity | Space Complexity |
 | :--: | :---: |
-| O(1) | O(1) |
+| O(1) or O(n) | O(1) |
 
 ```cpp
 std::set<int> s1 = {1, 2, 3};
@@ -316,6 +352,51 @@ size_t count = s.count(2);  // count = 1
 ```cpp
 std::set<int> s = {1, 2, 3};
 bool exists = s.contains(2);  // true
+```
+
+<br>
+
+### lower_bound(const Key& key)
+
+**Description:** Returns an iterator to the first element that is not less than the given key.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::set<int> s = {1, 2, 3, 4};
+auto it = s.lower_bound(3);  // Iterator points to 3.
+```
+
+<br>
+
+### upper_bound(const Key& key)
+
+**Description:** Returns an iterator to the first element that is greater than the given key.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::set<int> s = {1, 2, 3, 4};
+auto it = s.upper_bound(3);  // Iterator points to 4.
+```
+
+<br>
+
+### equal_range(const Key& key)
+
+**Description:** Returns the range of elements matching a specific key. Since elements in `std::set` are unique, the range will contain either one or no elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(log n) | O(1) |
+
+```cpp
+std::set<int> s = {1, 2, 3, 4};
+auto range = s.equal_range(3);  // Returns a pair of iterators defining the range for 3.
 ```
 
 <br>
@@ -426,7 +507,7 @@ auto comp = s.value_comp();
 
 | Time Complexity | Space Complexity |
 | :--: | :---: |
-| O(1) | O(1) |
+| O(1) or O(n) | O(1) |
 
 <br>
 
