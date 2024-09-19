@@ -27,6 +27,7 @@ To use `std::list`, you need to include the following header:
 | Constructor (default)   | O(1)             | O(1)             |
 | Constructor (range)     | O(n)             | O(n)             |
 | insert()               | O(1)             | O(1)             |
+| emplace()              | O(1)             | O(1)             |
 | erase()                | O(1)             | O(1)             |
 | find()                 | O(n)             | O(1)             |
 | clear()                | O(n)             | O(1)             |
@@ -37,6 +38,9 @@ To use `std::list`, you need to include the following header:
 | merge()                | O(n)             | O(1)             |
 | sort()                 | O(n log n)       | O(1)             |
 | splice()               | O(1)             | O(1)             |
+| remove()               | O(n)             | O(1)             |
+| remove_if()            | O(n)             | O(1)             |
+| unique()               | O(n)             | O(1)             |
 
 <br>
 
@@ -196,6 +200,21 @@ lst.insert(++lst.begin(), 4); // Inserts 4 after the first element.
 
 <br>
 
+### emplace(iterator pos, Args&&... args)
+
+**Description:** Constructs an element in place at the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3};
+lst.emplace(++lst.begin(), 4);  // Constructs 4 in place after the first element.
+```
+
+<br>
+
 ### erase(iterator pos)
 
 **Description:** Erases the element at the specified position.
@@ -241,6 +260,21 @@ lst.push_back(4); // Adds 4 to the end of the list.
 
 <br>
 
+### emplace_back(Args&&... args)
+
+**Description:** Constructs an element in place at the end of the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3};
+lst.emplace_back(4);  // Constructs 4 in place at the end of the list.
+```
+
+<br>
+
 ### push_front(const T& value)
 
 **Description:** Adds an element to the beginning of the list.
@@ -252,6 +286,21 @@ lst.push_back(4); // Adds 4 to the end of the list.
 ```cpp
 std::list<int> lst = {1, 2, 3};
 lst.push_front(0); // Adds 0 to the front of the list.
+```
+
+<br>
+
+### emplace_front(Args&&... args)
+
+**Description:** Constructs an element in place at the beginning of the list.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3};
+lst.emplace_front(0);  // Constructs 0 in place at the beginning of the list.
 ```
 
 <br>
@@ -370,8 +419,6 @@ auto rit = lst.rend();  // Points to the past-the-end element in reverse order.
 | :--: | :---: |
 | O(n log n) | O(1) |
 
-
-
 ```cpp
 std::list<int> lst = {3, 1, 2};
 lst.sort(); // Sorts the list to {1, 2, 3}.
@@ -422,6 +469,51 @@ lst1.merge(lst2); // Merges lst2 into lst1.
 std::list<int> lst1 = {1, 2, 3};
 std::list<int> lst2 = {4, 5, 6};
 lst1.splice(lst1.end(), lst2);  // Moves all elements of lst2 into lst1.
+```
+
+<br>
+
+### remove(const T& value)
+
+**Description:** Removes all elements with the given value.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3, 2};
+lst.remove(2);  // Removes all elements equal to 2.
+```
+
+<br>
+
+### remove_if(UnaryPredicate p)
+
+**Description:** Removes all elements that satisfy the given predicate `p`.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 3, 4};
+lst.remove_if([](int x){ return x % 2 == 0; });  // Removes all even numbers.
+```
+
+<br>
+
+### unique()
+
+**Description:** Removes consecutive duplicate elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(1) |
+
+```cpp
+std::list<int> lst = {1, 2, 2, 3};
+lst.unique();  // Removes consecutive duplicates: lst becomes {1, 2, 3}.
 ```
 
 <br>
