@@ -29,12 +29,20 @@ To use `std::vector`, you need to include the following header:
 | size()                 | O(1)            | O(1)             |
 | capacity()             | O(1)            | O(1)             |
 | push_back()            | O(1) amortized  | O(n)             |
+| emplace_back()         | O(1) amortized  | O(n)             |
 | pop_back()             | O(1)            | O(1)             |
 | insert()               | O(n)            | O(n)             |
+| emplace()              | O(n)            | O(n)             |
 | erase()                | O(n)            | O(1)             |
 | clear()                | O(n)            | O(1)             |
 | shrink_to_fit()        | O(n)            | O(1)             |
+| reserve()              | O(n)            | O(n)             |
+| resize()               | O(n)            | O(n)             |
+| assign()               | O(n)            | O(n)             |
+| at()                   | O(1)            | O(1)             |
 | begin()/end()          | O(1)            | O(1)             |
+| rbegin()/rend()        | O(1)            | O(1)             |
+| data()                 | O(1)            | O(1)             |
 | swap()                 | O(1)            | O(1)             |
 
 <br>
@@ -317,6 +325,21 @@ v.push_back(4);  // Adds 4 to the end of the vector.
 
 <br>
 
+### emplace_back(Args&&... args)
+
+**Description:** Constructs an element in place at the end of the vector.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) (amortized) | O(n) |
+
+```cpp
+std::vector<std::string> v;
+v.emplace_back("Hello");  // Constructs a string in place at the end of the vector.
+```
+
+<br>
+
 ### pop_back()
 
 **Description:** Removes the last element in the vector.
@@ -326,7 +349,9 @@ v.push_back(4);  // Adds 4 to the end of the vector.
 | O(1) | O(1) |
 
 ```cpp
-std::vector<int> v = {1, 2, 3};
+std::vector<int
+
+> v = {1, 2, 3};
 v.pop_back(); // v becomes {1, 2}
 ```
 
@@ -347,6 +372,21 @@ v.insert(v.begin() + 1, 5); // v becomes {1, 5, 2, 3}
 
 <br>
 
+### emplace(iterator pos, Args&&... args)
+
+**Description:** Constructs an element in place before the specified position.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<std::string> v = {"Hello", "World"};
+v.emplace(v.begin() + 1, "there");  // Inserts "there" between "Hello" and "World".
+```
+
+<br>
+
 ### erase(iterator pos)
 
 **Description:** Erases the element at the given position.
@@ -357,9 +397,7 @@ v.insert(v.begin() + 1, 5); // v becomes {1, 5, 2, 3}
 
 ```cpp
 std::vector<int> v = {1, 2, 3};
-v.erase(v.begin() + 1); // v becomes {1
-
-, 3}
+v.erase(v.begin() + 1); // v becomes {1, 3}
 ```
 
 <br>
@@ -375,6 +413,37 @@ v.erase(v.begin() + 1); // v becomes {1
 ```cpp
 std::vector<int> v = {1, 2, 3};
 v.clear(); // v becomes {}
+```
+
+<br>
+
+### resize(size_type count)
+
+**Description:** Resizes the container to contain `count` elements.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+v.resize(5);  // Resizes the vector to contain 5 elements; extra elements are default-initialized.
+```
+
+<br>
+
+### assign(InputIt first, InputIt last)
+
+**Description:** Replaces the contents of the vector with elements from a range `[first, last)`.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(n) | O(n) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+std::vector<int> new_vals = {4, 5, 6};
+v.assign(new_vals.begin(), new_vals.end());  // Replaces v's contents with {4, 5, 6}.
 ```
 
 <br>
@@ -452,6 +521,21 @@ auto rit = v.rend();
 <br>
 
 ## Special Functions
+
+<br>
+
+### data()
+
+**Description:** Returns a pointer to the underlying array serving as the element storage.
+
+| Time Complexity | Space Complexity |
+| :--: | :---: |
+| O(1) | O(1) |
+
+```cpp
+std::vector<int> v = {1, 2, 3};
+int* data_ptr = v.data();  // Access the underlying array.
+```
 
 <br>
 
