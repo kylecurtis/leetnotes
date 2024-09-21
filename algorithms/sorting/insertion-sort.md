@@ -60,6 +60,7 @@ int j = i - 1;
 ```cpp
 while (j >= 0 && arr[j + 1] < arr[j]) {
 ```
+
 > - **Condition**: The loop continues as long as:
 > 	- `j >= 0` ensures we are not out of bounds.
 > 	- `arr[j + 1] < arr[j]` checks if the current element (`arr[j + 1]`) is smaller than the previous element (`arr[j]`).
