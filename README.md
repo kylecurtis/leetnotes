@@ -4,7 +4,7 @@
 
 ## Computer Science
 
-| STL Topic | Link |
+| CS Topic | Link |
 | :-- | :-- |
 | Bits, Bytes, and Binary Systems | https://github.com/kylecurtis/leetnotes/blob/main/computer-science/bits-bytes-and-binary-systems.md |
 
@@ -14,7 +14,7 @@
 
 ### Sorting
 
-| STL Topic | Link |
+| Sorting Algorithm | Link |
 | :-- | :-- |
 | Insertion Sort | https://github.com/kylecurtis/leetnotes/blob/main/algorithms/sorting/insertion-sort.md |
 
@@ -24,7 +24,7 @@
 
 ### Solutions
 
-| STL Topic | Link |
+| Problem | Solution Breakdown |
 | :-- | :-- |
 | 1 - Two Sum | https://github.com/kylecurtis/leetnotes/blob/main/leetcode/solutions/1-two-sum.md |
 
