@@ -20,17 +20,6 @@
 
 <br>
 
-## LeetCode
-
-### Solutions
-
-| Problem | Solution Breakdown |
-| :-- | :-- |
-| 1 - Two Sum | https://github.com/kylecurtis/leetnotes/blob/main/leetcode/solutions/1-two-sum.md |
-| 344 - Reverse String | https://github.com/kylecurtis/leetnotes/blob/main/leetcode/solutions/344-reverse-string.md |
-
-<br>
-
 ## C++ Standard Template Library (STL)
 
 ### Containers
