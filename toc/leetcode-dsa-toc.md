@@ -1,0 +1,348 @@
+1. Introduction to Competitive Programming and LeetCode
+   - Understanding the LeetCode platform
+     - Problem types
+     - Difficulty levels
+     - Company-specific questions
+   - Time and space complexity basics
+     - Big O notation
+     - Common time complexities
+     - Space-time tradeoffs
+   - C++ features for competitive programming
+     - Fast I/O techniques
+     - Compiler optimizations
+     - Inline functions
+
+2. Data Structures
+   - Arrays and Vectors
+     - Static arrays
+     - Dynamic arrays (std::vector)
+     - Multi-dimensional arrays
+   - Strings
+     - C-style strings
+     - std::string
+     - String views
+   - Linked Lists
+     - Singly Linked Lists
+     - Doubly Linked Lists
+     - Circular Linked Lists
+     - Skip Lists
+   - Stacks and Queues
+     - Stack implementation
+     - Queue implementation
+     - Priority Queues
+     - Deques (Double-ended queues)
+   - Hash Tables
+     - Hash functions
+     - Collision resolution techniques
+       - Chaining
+       - Open addressing
+     - Unordered Sets and Maps
+     - Custom Hash Functions
+   - Trees
+     - Binary Trees
+       - Full, complete, and perfect binary trees
+     - Binary Search Trees
+     - Balanced Trees
+       - AVL Trees
+       - Red-Black Trees
+       - Splay Trees
+     - B-Trees and B+ Trees
+     - Segment Trees
+       - Lazy propagation
+     - Fenwick Trees (Binary Indexed Trees)
+     - Trie (Prefix Trees)
+       - Compressed Tries
+   - Heaps
+     - Binary Heaps
+       - Min Heaps
+       - Max Heaps
+     - Fibonacci Heaps
+     - Pairing Heaps
+   - Graphs
+     - Graph representations
+       - Adjacency Matrix
+       - Adjacency List
+       - Edge List
+     - Weighted and unweighted graphs
+     - Directed and undirected graphs
+   - Disjoint Set (Union-Find)
+     - Path compression
+     - Union by rank
+   - Advanced Data Structures
+     - Suffix Arrays and Suffix Trees
+     - Sparse Tables
+     - Van Emde Boas Trees
+     - Treap
+     - Persistent Data Structures
+     - Rope (string data structure)
+
+3. Algorithms
+   - Sorting Algorithms
+     - Comparison-based sorts
+       - Bubble Sort
+       - Selection Sort
+       - Insertion Sort
+       - Merge Sort
+       - Quick Sort
+       - Heap Sort
+     - Non-comparison sorts
+       - Counting Sort
+       - Radix Sort
+       - Bucket Sort
+     - Hybrid sorting algorithms
+       - Introsort
+       - Timsort
+   - Searching Algorithms
+     - Linear Search
+     - Binary Search and its variations
+       - Lower bound and Upper bound
+       - Binary search on answer
+     - Ternary Search
+     - Jump Search
+     - Interpolation Search
+   - Dynamic Programming
+     - Top-down (Memoization) vs Bottom-up (Tabulation)
+     - State compression techniques
+     - Common DP patterns
+       - 0/1 Knapsack and variations
+       - Unbounded Knapsack
+       - Subset Sum
+       - Partition problem
+       - Longest Common Subsequence
+       - Longest Increasing Subsequence
+       - Edit Distance
+       - Coin Change Problem
+       - Matrix Chain Multiplication
+       - Optimal Binary Search Tree
+     - DP on trees
+     - DP with bitmasks
+   - Greedy Algorithms
+     - Activity Selection
+     - Huffman Coding
+     - Fractional Knapsack
+     - Interval Scheduling
+     - Job Sequencing
+   - Graph Algorithms
+     - Traversal Algorithms
+       - Depth-First Search (DFS)
+       - Breadth-First Search (BFS)
+     - Topological Sort
+       - Kahn's algorithm
+       - DFS-based approach
+     - Shortest Path Algorithms
+       - Dijkstra's Algorithm
+       - Bellman-Ford Algorithm
+       - Floyd-Warshall Algorithm
+       - Johnson's Algorithm
+     - Minimum Spanning Trees
+       - Prim's Algorithm
+       - Kruskal's Algorithm
+     - Strongly Connected Components
+       - Kosaraju's Algorithm
+       - Tarjan's Algorithm
+     - Articulation Points and Bridges
+     - Maximum Flow
+       - Ford-Fulkerson Algorithm
+       - Edmonds-Karp Algorithm
+       - Dinic's Algorithm
+       - Push-Relabel Algorithm
+     - Bipartite Matching
+       - Hungarian Algorithm
+     - Euler Path and Circuit
+     - Hamiltonian Path and Circuit
+   - String Algorithms
+     - Pattern Matching
+       - KMP Algorithm
+       - Rabin-Karp Algorithm
+       - Z Algorithm
+     - Palindrome Algorithms
+       - Manacher's Algorithm
+     - Suffix Structures
+       - Suffix Array construction
+       - LCP Array
+     - Aho-Corasick Algorithm
+     - Longest Palindromic Substring
+   - Computational Geometry
+     - Basic geometric primitives
+     - Convex Hull algorithms
+       - Graham Scan
+       - Jarvis March
+       - Quick Hull
+     - Line Intersection
+     - Closest Pair of Points
+     - Point in Polygon
+     - Area of Polygon
+     - Sweep Line Algorithm
+
+4. Advanced Techniques
+   - Bit Manipulation
+     - Basic operations
+     - Bit masks
+     - Bitwise DP
+   - Two Pointers Technique
+   - Sliding Window
+   - Meet in the Middle
+   - Divide and Conquer
+   - Recursion and Backtracking
+   - Hashing Techniques
+     - Rolling Hash
+     - Bloom Filters
+   - Monotonic Stack/Queue
+   - Sweep Line Algorithm
+   - Square Root Decomposition
+   - Heavy-Light Decomposition
+   - Centroid Decomposition
+   - Mo's Algorithm
+
+5. Number Theory
+   - Prime Numbers and Primality Tests
+     - Sieve of Eratosthenes
+     - Segmented Sieve
+     - Miller-Rabin primality test
+   - Modular Arithmetic
+     - Modular exponentiation
+     - Modular multiplicative inverse
+   - Greatest Common Divisor (GCD) and Least Common Multiple (LCM)
+     - Euclidean algorithm
+     - Extended Euclidean algorithm
+   - Fast Exponentiation
+   - Euler's Totient Function
+   - Fermat's Little Theorem
+   - Chinese Remainder Theorem
+   - Lucas Theorem
+   - Gaussian Elimination
+   - Matrix Exponentiation
+
+6. Game Theory
+   - Nim Game
+   - Sprague-Grundy Theorem
+   - Minimax Algorithm
+   - Alpha-Beta Pruning
+   - Game trees
+   - Combinatorial games
+
+7. C++ Standard Template Library (STL)
+   - Containers
+     - Sequence containers
+       - array
+       - vector
+       - deque
+       - list
+       - forward_list
+     - Associative containers
+       - set
+       - multiset
+       - map
+       - multimap
+     - Unordered associative containers
+       - unordered_set
+       - unordered_multiset
+       - unordered_map
+       - unordered_multimap
+     - Container adapters
+       - stack
+       - queue
+       - priority_queue
+   - Algorithms
+     - Non-modifying sequence operations
+       - all_of, any_of, none_of
+       - for_each
+       - find, find_if, find_if_not
+       - count, count_if
+       - mismatch
+       - equal
+       - search
+     - Modifying sequence operations
+       - copy, move
+       - transform
+       - generate
+       - remove, remove_if
+       - replace, replace_if
+       - swap, iter_swap
+       - reverse
+       - rotate
+       - shuffle
+     - Partitioning operations
+       - is_partitioned
+       - partition, stable_partition
+       - partition_point
+     - Sorting operations
+       - sort, stable_sort
+       - partial_sort
+       - nth_element
+       - lower_bound, upper_bound, equal_range
+       - binary_search
+     - Binary search operations (on sorted ranges)
+       - lower_bound, upper_bound, equal_range
+       - binary_search
+     - Set operations (on sorted ranges)
+       - merge
+       - inplace_merge
+       - includes
+       - set_difference
+       - set_intersection
+       - set_symmetric_difference
+       - set_union
+     - Heap operations
+       - make_heap
+       - push_heap
+       - pop_heap
+       - sort_heap
+     - Minimum/maximum operations
+       - min, max
+       - minmax
+       - min_element, max_element
+       - minmax_element
+     - Comparison operations
+       - lexicographical_compare
+     - Permutation operations
+       - next_permutation, prev_permutation
+   - Iterators
+     - Input iterators
+     - Output iterators
+     - Forward iterators
+     - Bidirectional iterators
+     - Random-access iterators
+     - Contiguous iterators (C++20)
+   - Function Objects
+     - Arithmetic operations
+     - Comparisons
+     - Logical operations
+   - Custom Comparators
+
+8. Advanced C++ Features for Competitive Programming
+   - Lambda Functions
+   - Perfect Forwarding
+   - Move Semantics
+   - SFINAE (Substitution Failure Is Not An Error)
+   - Template Metaprogramming
+     - Compile-time computations
+     - Type traits
+   - Variadic Templates
+   - Fold Expressions (C++17)
+   - Concepts (C++20)
+
+9. Problem-Solving Strategies
+   - Approaching Different Problem Types
+     - Array manipulation
+     - String processing
+     - Graph traversal
+     - Dynamic programming
+   - Time Management in Contests
+   - Debugging Techniques
+     - Binary search debugging
+     - Stress testing
+   - Code optimization techniques
+   - Reading and understanding problem statements
+
+10. Practice and Resources
+    - LeetCode Problem Classifications
+      - Easy, Medium, Hard problems
+      - Topic-wise problems
+      - Company-specific problems
+    - Online Judges and Contests
+      - Codeforces
+      - AtCoder
+      - TopCoder
+      - HackerRank
+      - CodeChef
